@@ -1,41 +1,26 @@
-import { Component } from 'react';
+import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
-import { getImages } from 'services/getImages';
+import { ImageGalleryWrapper } from './ImageGallery.styled';
 
-class ImageGallery extends Component {
-  state = {
-    images: [],
-    page: 1,
-  };
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.value !== this.props.value ||
-      prevState.page !== this.state.page
-    ) {
-      getImages(this.props.value, this.state.page)
-        .then(response => response.json())
-        .then(images => {
-          this.setState({ images: [...this.state.images, ...images.hits] });
-        });
-    }
-  }
+export const ImageGallery = ({ images, openModal, handleView }) => {
+  return (
+    <ImageGalleryWrapper>
+      {images !== null &&
+        images.map(({ webformatURL, user, id }) => (
+          <ImageGalleryItem
+            key={nanoid()}
+            id={id}
+            openModal={openModal}
+            image={webformatURL}
+            title={user}
+            handleView={handleView}
+          />
+        ))}
+    </ImageGalleryWrapper>
+  );
+};
 
-  render() {
-    console.log(this.state.images);
-    const images = this.state.images;
-    return (
-      <ul>
-        {this.state.images !== null &&
-          images.map(image => (
-            <ImageGalleryItem
-              id={image.id}
-              image={image.webformatURL}
-              title={image.user}
-            />
-          ))}
-      </ul>
-    );
-  }
-}
-
-export default ImageGallery;
+ImageGallery.propTypes = {
+  images: PropTypes.array,
+};
