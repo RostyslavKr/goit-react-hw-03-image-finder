@@ -132,7 +132,7 @@ class App extends Component {
         />
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <img src={this.state.largeImage} width={800} height={500}></img>
+            <img src={this.state.largeImage} width={800} height={500} />
           </Modal>
         )}
       </div>
