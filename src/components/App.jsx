@@ -100,7 +100,7 @@ class App extends Component {
     });
   };
   render() {
-    const { images, error, status, showModal } = this.state;
+    const { images, error, status, showModal, textSearch } = this.state;
 
     return (
       <div>
@@ -132,7 +132,12 @@ class App extends Component {
         />
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <img src={this.state.largeImage} width={800} height={500} />
+            <img
+              src={this.state.largeImage}
+              alt={textSearch}
+              width={800}
+              height={500}
+            />
           </Modal>
         )}
       </div>
