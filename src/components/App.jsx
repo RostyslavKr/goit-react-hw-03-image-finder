@@ -17,6 +17,7 @@ class App extends Component {
     page: 1,
     showModal: false,
     largeImage: '',
+    totalHits: null,
   };
   componentDidUpdate(_, prevState) {
     if (prevState.textSearch !== this.state.textSearch) {
@@ -37,6 +38,7 @@ class App extends Component {
             this.setState({
               images: [...this.state.images, ...images.hits],
               status: 'resolved',
+              totalHits: images.totalHits,
             });
           } else {
             toast.warn(
@@ -100,7 +102,8 @@ class App extends Component {
     });
   };
   render() {
-    const { images, error, status, showModal, textSearch } = this.state;
+    const { images, error, status, showModal, textSearch, totalHits } =
+      this.state;
 
     return (
       <div>
@@ -117,7 +120,9 @@ class App extends Component {
         )}
         {status === 'rejected' && <div>{error.message}</div>}
 
-        {images.length > 0 && <Button decrementPage={this.onLoadMore} />}
+        {images.length > 0 && images.length !== totalHits && (
+          <Button decrementPage={this.onLoadMore} />
+        )}
         <ToastContainer
           position="top-right"
           autoClose={4000}
